@@ -7,12 +7,11 @@
     <style>
         :root {
             --bg-color: #0b0c10;
-            --card-bg: #12141c;
-            --gold-primary: #d4af37;
-            --gold-light: #f3e5ab;
-            --text-main: #e0e0e0;
-            --text-muted: #888888;
-            --border-gold: rgba(212, 175, 55, 0.3);
+            --card-bg: #1f2833;
+            --accent-color: #66fcf1;
+            --accent-secondary: #45a29e;
+            --text-main: #ffffff;
+            --text-muted: #c5c6c7;
         }
 
         * {
@@ -35,25 +34,25 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
-            border-bottom: 1px solid var(--border-gold);
-            background: rgba(11, 12, 16, 0.95);
+            border-bottom: 1px solid var(--card-bg);
+            background: rgba(11, 12, 16, 0.9);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .brand-logo {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: 2px;
-            color: var(--gold-primary);
+            color: var(--text-main);
             text-transform: uppercase;
         }
 
         .brand-sub {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             display: block;
-            color: var(--text-muted);
+            color: var(--accent-color);
             letter-spacing: 3px;
             margin-top: 2px;
         }
@@ -66,39 +65,40 @@
 
         .dock-btn {
             background: none;
-            border: 1px solid var(--border-gold);
-            color: var(--gold-light);
-            padding: 8px 14px;
+            border: 1px solid var(--accent-secondary);
+            color: var(--text-main);
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: all 0.3s ease;
         }
 
         .dock-btn:hover {
-            background: var(--gold-primary);
+            background: var(--accent-color);
             color: var(--bg-color);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
         }
 
         main {
             flex: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 50px 20px;
+            padding: 40px 20px;
             width: 100%;
         }
 
         .hero-section {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .hero-section h1 {
-            font-size: 2.2rem;
-            color: var(--gold-primary);
+            font-size: 2.5rem;
+            color: var(--text-main);
             margin-bottom: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -106,20 +106,21 @@
 
         .hero-section p {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.1rem;
             letter-spacing: 1px;
         }
 
         .divisions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
+            margin-bottom: 50px;
         }
 
         .division-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            border-radius: 10px;
+            border: 1px solid rgba(102, 252, 241, 0.1);
+            border-radius: 12px;
             padding: 30px;
             transition: all 0.3s ease;
             display: flex;
@@ -128,14 +129,14 @@
         }
 
         .division-card:hover {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 25px rgba(102, 252, 241, 0.2);
+            transform: translateY(-4px);
         }
 
         .division-card h2 {
-            color: var(--gold-primary);
-            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-size: 1.5rem;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -143,36 +144,39 @@
 
         .division-card p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
             margin-bottom: 25px;
         }
 
         .card-action {
             background: transparent;
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-light);
-            padding: 10px 20px;
-            border-radius: 4px;
+            border: 1px solid var(--accent-color);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 6px;
             text-align: center;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .card-action:hover {
-            background: var(--gold-primary);
+            background: var(--accent-color);
             color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            border-top: 1px solid var(--border-gold);
+            border-top: 1px solid var(--card-bg);
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
         }
     </style>
@@ -194,32 +198,32 @@
     <main>
         <section class="hero-section">
             <h1>Interactive Digital Media & Publishing</h1>
-            <p>Select a division below to explore core operations, literature, and educational assets.</p>
+            <p>Explore our core creative divisions, multimedia releases, and digital properties.</p>
         </section>
 
         <div class="divisions-grid">
             <div class="division-card">
                 <div>
                     <h2>Mad Labs Press</h2>
-                    <p>Publishing, print works, independent literature, and editorial releases.</p>
+                    <p>Independent publishing, print works, editorial releases, and physical-to-digital media pipelines.</p>
                 </div>
-                <button class="card-action">Explore Press</button>
+                <a href="#" class="card-action">Explore Press</a>
             </div>
 
             <div class="division-card">
                 <div>
                     <h2>Mad Labs Stories</h2>
-                    <p>Children's storybooks, kids print series, and illustrated original releases.</p>
+                    <p>Children's book publishing, illustrated storytelling series, and young reader interactive formats.</p>
                 </div>
-                <button class="card-action">Explore Stories</button>
+                <a href="#" class="card-action">Explore Stories</a>
             </div>
 
             <div class="division-card">
                 <div>
                     <h2>Mad Labs Learn</h2>
-                    <p>Classroom materials, structured handbooks, guides, and digital learning assets.</p>
+                    <p>Classroom manuals, instructional handbooks, educational guides, and digital learning assets.</p>
                 </div>
-                <button class="card-action">Explore Learn</button>
+                <a href="#" class="card-action">Explore Learn</a>
             </div>
         </div>
     </main>
