@@ -1,379 +1,984 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mad Labs FX | Official Publisher Hub</title>
+    <title>Mad Labs FX | Interactive Digital Content & Cyber Ecosystem</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0b0c10',
+                        charcoal: '#1f2833',
+                        neonCyan: '#45f3ff',
+                        vividViolet: '#9d4edd',
+                        sleekSilver: '#c5c6c7',
+                        glassBg: 'rgba(31, 40, 51, 0.45)',
+                        glassBorder: 'rgba(69, 243, 255, 0.2)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(69, 243, 255, 0.35)',
+                        'neon-violet': '0 0 20px rgba(157, 78, 221, 0.35)',
+                        'glass-glow': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 6s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', filter: 'drop-shadow(0 0 12px rgba(69, 243, 255, 0.6))' },
+                            '50%': { opacity: '0.9', filter: 'drop-shadow(0 0 25px rgba(157, 78, 221, 0.8))' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome for Cyber Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-surface: #141414;
-            --bg-card: #1c1c1c;
-            --gold: #E5A93C;
-            --cyan: #00f0ff;
-            --purple: #9d4edd;
-            --text-main: #f5f5f7;
-            --text-muted: #888888;
-            --border: #2a2a2a;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        header {
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(31, 40, 51, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(69, 243, 255, 0.15);
+            border-radius: 1rem;
+        }
+
+        .glass-panel-hover:hover {
+            border-color: rgba(69, 243, 255, 0.4);
+            box-shadow: 0 0 25px rgba(69, 243, 255, 0.15);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #45f3ff 0%, #9d4edd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-violet {
+            background: linear-gradient(135deg, #9d4edd 0%, #45f3ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0c10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2833;
+            border-radius: 4px;
+            border: 1px solid rgba(69, 243, 255, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #45f3ff;
+        }
+
+        /* Canvas Background Container */
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.25rem 2rem;
-        }
-
-        .logo-area {
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-
-        .logo-area span {
-            color: var(--gold);
-        }
-
-        nav {
-            display: flex;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--gold);
-            text-shadow: 0 0 12px rgba(229, 169, 60, 0.4);
-        }
-
-        .main-container {
-            padding-top: 110px;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            min-height: 100vh;
-        }
-
-        .page-view {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.35s ease, transform 0.35s ease;
-            padding: 3rem 0;
-        }
-
-        .page-view.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hero-box {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.9));
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 4rem 3rem;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(229, 169, 60, 0.05) 0%, transparent 70%);
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
             pointer-events: none;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(229, 169, 60, 0.1);
-            color: var(--gold);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(229, 169, 60, 0.3);
-        }
-
-        h1 {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            line-height: 1.15;
-        }
-
-        h1 span {
-            color: var(--gold);
-        }
-
-        p.manifesto {
-            color: #d1d1d6;
-            font-size: 1.15rem;
-            line-height: 1.7;
-            max-width: 800px;
-            margin-bottom: 2rem;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            background: var(--gold);
-            color: #000;
-            padding: 12px 26px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn:hover {
-            background: #fff;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 2.5rem;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            border-color: var(--gold);
-            transform: translateY(-4px);
-        }
-
-        .card h3 {
-            font-size: 1.35rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-main);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .meta-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--cyan);
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        footer {
-            border-top: 1px solid var(--border);
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 5rem;
-        }
-
-        footer span {
-            color: var(--gold);
-            font-weight: 600;
         }
     </style>
 </head>
-<body>
+<body class="relative antialiased selection:bg-neonCyan selection:text-obsidian">
 
-    <header>
-        <div class="logo-area" onclick="switchPage('manifesto')">
-            MAD LABS <span>FX</span>
-        </div>
-        <nav>
-            <a onclick="switchPage('manifesto')" id="nav-manifesto" class="active">Publisher Manifesto</a>
-            <a onclick="switchPage('utilities')" id="nav-utilities">Digital Utilities</a>
-            <a onclick="switchPage('standards')" id="nav-standards">Design Standards</a>
-        </nav>
-    </header>
+    <!-- Interactive Cyber Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="main-container">
+    <!-- Main Outer Wrapper -->
+    <div class="relative z-10 flex flex-col min-h-screen">
 
-        <!-- PAGE 1: PUBLISHER MANIFESTO -->
-        <section id="manifesto" class="page-view active">
-            <div class="hero-box">
-                <div class="badge">Publisher Hub • Official Identity</div>
-                <h1>Bridging the gap between <span>imagination and reality.</span></h1>
-                <p class="manifesto">
-                    "At Mad Labs FX, our philosophy is simple: we take things apart, master how they function, and rebuild them to the highest possible standard. Rooted in an elite visual standard and inspired by the deep, premium resonance of the Sound of Philadelphia, our software portfolio delivers maximum, uncompromised execution."
-                </p>
-                <div class="btn-group">
-                    <button class="btn" onclick="switchPage('utilities')">View Digital Utilities</button>
-                    <button class="btn btn-outline" onclick="switchPage('standards')">Explore Design Standard</button>
+        <!-- Navigation Bar -->
+        <header class="sticky top-0 z-50 backdrop-blur-md bg-obsidian/80 border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <!-- Brand Logo -->
+                    <a href="#" class="flex items-center gap-3 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-neonCyan to-vividViolet p-0.5 flex items-center justify-center shadow-neon-cyan">
+                            <div class="w-full h-full bg-obsidian rounded-[10px] flex items-center justify-center transition group-hover:bg-transparent">
+                                <i class="fa-solid fa-flask text-neonCyan text-lg group-hover:text-obsidian transition"></i>
+                            </div>
+                        </div>
+                        <span class="text-xl sm:text-2xl font-extrabold tracking-wider text-white font-mono">
+                            MAD LABS <span class="gradient-text-cyan">FX</span>
+                        </span>
+                    </a>
+
+                    <!-- Desktop Nav Links -->
+                    <nav class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+                        <a href="#trivia" class="hover:text-neonCyan transition-colors">Trivia Game</a>
+                        <a href="#fame-machine" class="hover:text-neonCyan transition-colors">The Fame Machine</a>
+                        <a href="#firefly" class="hover:text-neonCyan transition-colors">Firefly AI</a>
+                        <a href="#vault" class="hover:text-neonCyan transition-colors">Project Omni</a>
+                        <a href="#ecosystem" class="hover:text-neonCyan transition-colors">Ecosystem</a>
+                    </nav>
+
+                    <!-- Header Action CTA -->
+                    <div class="hidden md:flex items-center gap-4">
+                        <a href="#trivia" class="px-5 py-2.5 rounded-xl bg-neonCyan/10 border border-neonCyan/40 text-neonCyan text-sm font-semibold hover:bg-neonCyan hover:text-obsidian hover:shadow-neon-cyan transition duration-300">
+                            <i class="fa-solid fa-play text-xs mr-2"></i> Play Demo
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-neonCyan focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
                 </div>
             </div>
 
-            <div class="grid-2">
-                <div class="card">
-                    <span class="meta-tag">Core Corporate Mandate</span>
-                    <h3>The Anti-Hustle Standard</h3>
-                    <p>Rejecting flat, sterile, mass-produced software and endless subscription paywalls in favor of durable, high-value, lifetime digital utilities[span_1](start_span)[span_1](end_span).</p>
+            <!-- Mobile Navigation Overlay Menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-obsidian/95 border-b border-white/10 px-4 pt-2 pb-6 space-y-3">
+                <a href="#trivia" class="mobile-link block py-2 text-base font-medium hover:text-neonCyan">Trivia Game</a>
+                <a href="#fame-machine" class="mobile-link block py-2 text-base font-medium hover:text-neonCyan">The Fame Machine</a>
+                <a href="#firefly" class="mobile-link block py-2 text-base font-medium hover:text-neonCyan">Firefly AI</a>
+                <a href="#vault" class="mobile-link block py-2 text-base font-medium hover:text-neonCyan">Project Omni</a>
+                <a href="#ecosystem" class="mobile-link block py-2 text-base font-medium hover:text-neonCyan">Ecosystem</a>
+                <a href="#trivia" class="mobile-link inline-block mt-2 w-full text-center px-5 py-3 rounded-xl bg-gradient-to-r from-neonCyan to-vividViolet text-obsidian font-bold">
+                    Play Trivia Mini-Demo
+                </a>
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="relative pt-12 pb-20 md:pt-24 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center flex flex-col items-center">
+            <!-- Glowing Status Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border-neonCyan/30 text-xs font-mono text-neonCyan mb-8 animate-pulse-glow">
+                <span class="w-2 h-2 rounded-full bg-neonCyan animate-ping"></span>
+                <span>MAD LABS ECOSYSTEM v2.5 NOW LIVE</span>
+            </div>
+
+            <!-- Hero Headline -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white max-w-5xl leading-tight">
+                BRIDGING THE GAP BETWEEN <br class="hidden sm:inline" />
+                <span class="gradient-text-cyan">IMAGINATION & REALITY</span>
+            </h1>
+
+            <!-- Core Identity Subhead Statement -->
+            <p class="mt-4 font-mono text-xs sm:text-sm text-vividViolet tracking-widest uppercase font-semibold">
+                — WHERE MEDIA CULTURE MEETS CYBER INTELLIGENCE —
+            </p>
+
+            <p class="mt-6 text-lg sm:text-xl text-sleekSilver/90 max-w-3xl leading-relaxed font-light">
+                Mad Labs FX is an interactive digital media & tech studio. From high-octane pop culture trivia and algorithmic media documentary engines to air-gapped mobile vault architecture.
+            </p>
+
+            <!-- Hero Buttons CTA -->
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4 w-full max-w-md sm:max-w-none">
+                <a href="#trivia" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-vividViolet text-obsidian font-extrabold text-base tracking-wide shadow-neon-cyan hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                    <span>PLAY TRIVIA DEMO</span>
+                </a>
+
+                <a href="#fame-machine" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-white font-semibold text-base border-white/20 hover:border-vividViolet hover:shadow-neon-violet hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-youtube text-red-500 text-lg"></i>
+                    <span>THE FAME MACHINE</span>
+                </a>
+
+                <a href="#firefly" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-neonCyan font-semibold text-base border-neonCyan/30 hover:border-neonCyan hover:bg-neonCyan/10 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-bolt text-lg"></i>
+                    <span>DISCOVER FIREFLY</span>
+                </a>
+            </div>
+
+            <!-- System Metrics Banner -->
+            <div class="mt-16 w-full grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-10 border-t border-white/10 text-left">
+                <div class="glass-panel p-5">
+                    <div class="text-xs font-mono text-neonCyan/70 uppercase">Flagship Game</div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Mad Labs Trivia</div>
+                    <div class="text-xs text-sleekSilver/70 mt-1">Pop Culture & Music History</div>
                 </div>
-                <div class="card">
-                    <span class="meta-tag">Ownership Commitment</span>
-                    <h3>The Inclusivity Mandate</h3>
-                    <p>Providing studio-grade, handcrafted digital engineering that everyday families and business owners can own outright without corporate gatekeeping[span_2](start_span)[span_2](end_span).</p>
+                <div class="glass-panel p-5">
+                    <div class="text-xs font-mono text-vividViolet/80 uppercase">Media Hub</div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Fame Machine</div>
+                    <div class="text-xs text-sleekSilver/70 mt-1">Cultural Deep Dives & Analysis</div>
+                </div>
+                <div class="glass-panel p-5">
+                    <div class="text-xs font-mono text-neonCyan/70 uppercase">AI Ecosystem</div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Firefly AI</div>
+                    <div class="text-xs text-sleekSilver/70 mt-1">Proactive Contextual Assistant</div>
+                </div>
+                <div class="glass-panel p-5">
+                    <div class="text-xs font-mono text-vividViolet/80 uppercase">Security Vault</div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Project Omni</div>
+                    <div class="text-xs text-sleekSilver/70 mt-1">Air-Gapped Mobile Architecture</div>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 2: DIGITAL UTILITIES -->
-        <section id="utilities" class="page-view">
-            <div class="hero-box" style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(20, 20, 20, 0.9));">
-                <div class="badge">Commercial & Consumer Suite</div>
-                <h1>Software Designed to <span>Look Expensive & Feel Effortless</span></h1>
-                <p class="manifesto">
-                    From raw mechanical device-isolated utilities to high-fidelity native platforms, our builds are engineered for absolute performance, strict user sovereignty, and zero unnecessary bloat.
+        <!-- SECTION 1: MAD LABS TRIVIA (INTERACTIVE MINI-DEMO) -->
+        <section id="trivia" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-white/10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Info Column -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-neonCyan/10 border border-neonCyan/30 text-neonCyan text-xs font-mono">
+                        <i class="fa-solid fa-fire text-amber-400"></i> PARTY & TRIVIA GAME
+                    </div>
+                    
+                    <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
+                        MAD LABS <span class="gradient-text-cyan">TRIVIA</span>
+                    </h2>
+                    
+                    <p class="text-sleekSilver leading-relaxed">
+                        Adapted from tactile physical deck-building concepts into dynamic digital battlegrounds. Test your knowledge across 90s/2000s R&B, hip-hop history, Mandela Effects, media urban legends, and cyber-lore.
+                    </p>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 rounded-lg bg-neonCyan/10 text-neonCyan mt-1"><i class="fa-solid fa-bolt"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold">Fast-Paced Dynamic Gameplay</h4>
+                                <p class="text-xs text-sleekSilver/80">Real-time timers, adaptive difficulty multipliers, and combo bonuses.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 rounded-lg bg-vividViolet/20 text-vividViolet mt-1"><i class="fa-solid fa-brain"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold">Culture & Mandela Effects</h4>
+                                <p class="text-xs text-sleekSilver/80">Curated questions designed to challenge memory, perception, and music lore.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center gap-4">
+                        <button onclick="openModal('trivia-modal')" class="px-6 py-3 rounded-xl bg-neonCyan text-obsidian font-bold text-sm hover:bg-white transition shadow-neon-cyan flex items-center gap-2">
+                            <span>Read Full Specs</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Widget Column -->
+                <div class="lg:col-span-7">
+                    <div class="glass-panel p-6 sm:p-8 relative overflow-hidden border-neonCyan/30 shadow-2xl">
+                        <!-- Top Bar of Game Widget -->
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                <span class="ml-2 font-mono text-xs text-sleekSilver/80">MAD_LABS_TRIVIA_SIMULATOR_v1.0</span>
+                            </div>
+                            <div id="trivia-score-badge" class="font-mono text-xs px-3 py-1 rounded bg-vividViolet/30 text-vividViolet border border-vividViolet/40 font-bold">
+                                SCORE: 0 PTS
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Mini-Game Container -->
+                        <div id="trivia-widget-content">
+                            <!-- JS Injecting Question Content Here -->
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: MEDIA & ENTERTAINMENT: THE FAME MACHINE -->
+        <section id="fame-machine" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono mb-4">
+                    <i class="fa-brands fa-youtube"></i> YOUTUBE & MEDIA ENGINE
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">
+                    THE FAME <span class="gradient-text-violet">MACHINE</span>
+                </h2>
+                <p class="mt-4 text-sleekSilver">
+                    A deep-dive media documentary engine illuminating music history, celebrity culture, systemic industry analytics, and nostalgia through precision video storytelling.
                 </p>
             </div>
 
-            <div class="grid-2">
-                <div class="card">
-                    <span class="meta-tag">Product Line A</span>
-                    <h3>QR Employee File Hub</h3>
-                    <p>Digital personnel database accessible via quick employee badge and QR scans to eliminate paper clutter and streamline field verification[span_3](start_span)[span_3](end_span).</p>
+            <!-- Featured Video Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Video Card 1 -->
+                <div class="glass-panel glass-panel-hover p-5 flex flex-col justify-between group cursor-pointer" onclick="openModal('fame-modal-1')">
+                    <div>
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-charcoal mb-4 border border-white/10">
+                            <!-- Stylized Fallback Thumbnail SVG/Canvas -->
+                            <div class="w-full h-full bg-gradient-to-tr from-obsidian via-charcoal to-vividViolet/40 flex items-center justify-center p-4">
+                                <i class="fa-solid fa-compact-disc text-5xl text-vividViolet group-hover:rotate-180 transition duration-700"></i>
+                            </div>
+                            <div class="absolute inset-0 bg-obsidian/40 flex items-center justify-center group-hover:bg-obsidian/20 transition">
+                                <div class="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian/80 text-[10px] font-mono text-white">
+                                18:42
+                            </div>
+                        </div>
+                        <span class="text-xs font-mono text-vividViolet font-semibold">DOCUMENTARY EPISODE 01</span>
+                        <h3 class="text-xl font-bold text-white mt-1 group-hover:text-neonCyan transition">
+                            The Golden Age of 90s R&B Production
+                        </h3>
+                        <p class="text-xs text-sleekSilver/80 mt-2 line-clamp-3">
+                            Deconstructing how swing beats, synth layers, and iconic vocal arrangements defined a decade and built the modern pop framework.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-sleekSilver/70">
+                        <span><i class="fa-solid fa-eye text-neonCyan mr-1"></i> 245K Views</span>
+                        <span class="text-neonCyan">Watch Preview &rarr;</span>
+                    </div>
                 </div>
-                <div class="card">
-                    <span class="meta-tag">Product Line B</span>
-                    <h3>Receipt-to-Sheet Auto-Balancer</h3>
-                    <p>Snap-to-ledger photo processing that pulls figures, balances sheets, and delivers clean accounting directly to your records[span_4](start_span)[span_4](end_span).</p>
+
+                <!-- Video Card 2 -->
+                <div class="glass-panel glass-panel-hover p-5 flex flex-col justify-between group cursor-pointer" onclick="openModal('fame-modal-2')">
+                    <div>
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-charcoal mb-4 border border-white/10">
+                            <div class="w-full h-full bg-gradient-to-tr from-obsidian via-charcoal to-neonCyan/30 flex items-center justify-center p-4">
+                                <i class="fa-solid fa-masks-theater text-5xl text-neonCyan group-hover:scale-110 transition duration-500"></i>
+                            </div>
+                            <div class="absolute inset-0 bg-obsidian/40 flex items-center justify-center group-hover:bg-obsidian/20 transition">
+                                <div class="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian/80 text-[10px] font-mono text-white">
+                                22:15
+                            </div>
+                        </div>
+                        <span class="text-xs font-mono text-neonCyan font-semibold">CULTURAL ANALYTICS</span>
+                        <h3 class="text-xl font-bold text-white mt-1 group-hover:text-neonCyan transition">
+                            Architects of Celebrity Culture
+                        </h3>
+                        <p class="text-xs text-sleekSilver/80 mt-2 line-clamp-3">
+                            An analytical deep dive into how 2000s tabloid media evolved into contemporary viral stardom algorithms and personal branding.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-sleekSilver/70">
+                        <span><i class="fa-solid fa-eye text-neonCyan mr-1"></i> 189K Views</span>
+                        <span class="text-neonCyan">Watch Preview &rarr;</span>
+                    </div>
                 </div>
-                <div class="card">
-                    <span class="meta-tag">Product Line C</span>
-                    <h3>Digital Cleaner & File Doctor</h3>
-                    <p>System optimization tool stripping away dead links, broken files, and digital bloat from mobile and desktop hardware locally[span_5](start_span)[span_5](end_span).</p>
+
+                <!-- Video Card 3 -->
+                <div class="glass-panel glass-panel-hover p-5 flex flex-col justify-between group cursor-pointer" onclick="openModal('fame-modal-3')">
+                    <div>
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-charcoal mb-4 border border-white/10">
+                            <div class="w-full h-full bg-gradient-to-tr from-obsidian via-charcoal to-amber-500/30 flex items-center justify-center p-4">
+                                <i class="fa-solid fa-brain text-5xl text-amber-400 group-hover:rotate-12 transition duration-500"></i>
+                            </div>
+                            <div class="absolute inset-0 bg-obsidian/40 flex items-center justify-center group-hover:bg-obsidian/20 transition">
+                                <div class="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian/80 text-[10px] font-mono text-white">
+                                15:30
+                            </div>
+                        </div>
+                        <span class="text-xs font-mono text-amber-400 font-semibold">MANDELA & POP LORE</span>
+                        <h3 class="text-xl font-bold text-white mt-1 group-hover:text-neonCyan transition">
+                            Collective Memory & Media Illusion
+                        </h3>
+                        <p class="text-xs text-sleekSilver/80 mt-2 line-clamp-3">
+                            Why millions remember lines, lyrics, and logos that never actually existed in public history records.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-sleekSilver/70">
+                        <span><i class="fa-solid fa-eye text-neonCyan mr-1"></i> 310K Views</span>
+                        <span class="text-neonCyan">Watch Preview &rarr;</span>
+                    </div>
                 </div>
-                <div class="card">
-                    <span class="meta-tag">Licensing Model</span>
-                    <h3>Lifetime Access Utilities</h3>
-                    <p>Once-purchased tools providing permanent ownership and lifetime utility with zero recurring subscription fees[span_6](start_span)[span_6](end_span).</p>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: DIGITAL INTELLIGENCE & ASSISTANTS: FIREFLY -->
+        <section id="firefly" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-white/10">
+            <div class="glass-panel p-8 sm:p-12 relative overflow-hidden border-neonCyan/30">
+                <!-- Background Accent Glow -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-neonCyan/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-neonCyan/10 border border-neonCyan/40 text-neonCyan text-xs font-mono">
+                            <i class="fa-solid fa-microchip"></i> INTELLIGENT AGENT ECOSYSTEM
+                        </div>
+
+                        <h2 class="text-3xl sm:text-5xl font-black text-white">
+                            FIREFLY <span class="gradient-text-cyan">ASSISTANT</span>
+                        </h2>
+
+                        <p class="text-sleekSilver leading-relaxed text-base">
+                            Firefly is the intelligent digital companion engine powering Mad Labs FX workflows. Engineered with proactive task execution, voice interaction modules, and dynamic contextual understanding.
+                        </p>
+
+                        <!-- Feature Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 rounded-xl bg-obsidian/60 border border-white/10">
+                                <i class="fa-solid fa-wave-square text-neonCyan text-xl mb-2"></i>
+                                <h4 class="text-white font-bold text-sm">Real-Time Context</h4>
+                                <p class="text-xs text-sleekSilver/70 mt-1">Adapts automatically to workspace state, document edits, and live query history.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-obsidian/60 border border-white/10">
+                                <i class="fa-solid fa-microphone text-vividViolet text-xl mb-2"></i>
+                                <h4 class="text-white font-bold text-sm">Voice Integration</h4>
+                                <p class="text-xs text-sleekSilver/70 mt-1">Native speech comprehension tailored for rapid workflow control.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-obsidian/60 border border-white/10">
+                                <i class="fa-solid fa-diagram-project text-neonCyan text-xl mb-2"></i>
+                                <h4 class="text-white font-bold text-sm">Proactive Automation</h4>
+                                <p class="text-xs text-sleekSilver/70 mt-1">Anticipates step execution, summaries, and code optimization.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-obsidian/60 border border-white/10">
+                                <i class="fa-solid fa-shield-halved text-vividViolet text-xl mb-2"></i>
+                                <h4 class="text-white font-bold text-sm">Privacy Guard</h4>
+                                <p class="text-xs text-sleekSilver/70 mt-1">Local processing pipelines ensuring client-side data safety.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="openModal('firefly-modal')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-neonCyan to-vividViolet text-obsidian font-extrabold text-sm hover:scale-105 transition duration-300 shadow-neon-cyan">
+                                Launch Firefly Portal Info
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Voice Visualizer Terminal -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-obsidian/90 rounded-2xl p-6 border border-neonCyan/30 shadow-neon-cyan font-mono text-xs">
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-neonCyan animate-ping"></span>
+                                    <span class="text-neonCyan font-bold">FIREFLY_CORE_ACTIVE</span>
+                                </div>
+                                <span class="text-sleekSilver/50">v3.8.0</span>
+                            </div>
+
+                            <!-- Audio Waveform Graphic -->
+                            <div id="waveform-container" class="h-20 flex items-center justify-center gap-1 my-6 cursor-pointer" onclick="triggerWaveformAnim()">
+                                <!-- Dynamic animated bars -->
+                                <div class="w-1.5 h-8 bg-neonCyan rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-14 bg-vividViolet rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-6 bg-neonCyan rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-16 bg-neonCyan rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-10 bg-vividViolet rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-4 bg-neonCyan rounded-full transition-all duration-300"></div>
+                                <div class="w-1.5 h-12 bg-vividViolet rounded-full transition-all duration-300"></div>
+                            </div>
+
+                            <!-- Live Simulated Terminal Prompt -->
+                            <div class="space-y-2 bg-charcoal/80 p-4 rounded-xl border border-white/5">
+                                <p class="text-sleekSilver/70">&gt; Firefly, analyze recent user interactions.</p>
+                                <p class="text-neonCyan">&gt; Processing... Trivia engine optimized. Fame Machine sync complete. All systems normal.</p>
+                                <p id="terminal-pulse-line" class="text-vividViolet animate-pulse">&gt; Waiting for voice audio command...</p>
+                            </div>
+
+                            <button onclick="triggerWaveformAnim()" class="w-full mt-4 py-2.5 rounded-xl border border-neonCyan/30 text-neonCyan font-semibold text-center hover:bg-neonCyan/10 transition">
+                                <i class="fa-solid fa-microphone mr-2"></i> Simulate Voice Waveform
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 3: DESIGN STANDARDS & PHILLY DNA -->
-        <section id="standards" class="page-view">
-            <div class="hero-box" style="background: linear-gradient(135deg, rgba(157, 78, 221, 0.05), rgba(20, 20, 20, 0.9));">
-                <div class="badge">Brand Architecture • The 215 Standard</div>
-                <h1>The Sound of Philadelphia <span>Rhythm & Motion</span></h1>
-                <p class="manifesto">
-                    Inspired by the legendary bespoke luxury of TSOP—where lush strings, bold horns, and obsessive craftsmanship defined an international movement—our architecture carries an undeniable weight of elegance[span_7](start_span)[span_7](end_span).
+        <!-- SECTION 4: SECURITY & CORE SYSTEMS (PROJECT OMNI & ARGUS) -->
+        <section id="vault" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-vividViolet/10 border border-vividViolet/30 text-vividViolet text-xs font-mono mb-4">
+                    <i class="fa-solid fa-lock"></i> SECURE DIGITAL VAULT ARCHITECTURE
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">
+                    PROJECT <span class="gradient-text-cyan">OMNI</span> & ARGUS
+                </h2>
+                <p class="mt-4 text-sleekSilver">
+                    Offline-first mobile vault, scanning engine, e-signatures, and dark obsidian glass interfaces engineered for absolute data privacy and rapid document management.
                 </p>
             </div>
 
-            <div class="grid-2">
-                <div class="card">
-                    <span class="meta-tag">Aesthetic Principle</span>
-                    <h3>Expensive Taste & Pain</h3>
-                    <p>Efficient to build does not mean cheap-looking. Every layout, UI component, and interaction feels heavy, high-line, and intentionally crafted.</p>
+            <!-- Vault System Feature Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="glass-panel p-6 border-white/10 hover:border-neonCyan/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan text-xl mb-4">
+                        <i class="fa-solid fa-vault"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Air-Gapped Vault</h3>
+                    <p class="text-xs text-sleekSilver/80 leading-relaxed">
+                        Complete client-side local encryption for critical mobile document storage. Offline independence with zero cloud dependency risks.
+                    </p>
                 </div>
-                <div class="card">
-                    <span class="meta-tag">Visual Identity</span>
-                    <h3>Full-Spectrum Contrast</h3>
-                    <p>Maximizing saturation and contrast across core neons (Electric Cyan, Neon Purple, Electric Lime, Energy Orange) and luxury precious metals (24K Gold, Shimmering Brass)[span_8](start_span)[span_8](end_span).</p>
+
+                <!-- Card 2 -->
+                <div class="glass-panel p-6 border-white/10 hover:border-vividViolet/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-vividViolet/10 border border-vividViolet/30 flex items-center justify-center text-vividViolet text-xl mb-4">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">OmniDesk Scanner & Sign</h3>
+                    <p class="text-xs text-sleekSilver/80 leading-relaxed">
+                        Integrated high-precision document scanning, auto-edge alignment, dynamic filtering, and biometric e-signature workflows.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-panel p-6 border-white/10 hover:border-neonCyan/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan text-xl mb-4">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">4-Tier Dark Glass UI</h3>
+                    <p class="text-xs text-sleekSilver/80 leading-relaxed">
+                        Ergonomically tuned obsidian dark theme optimized for OLED screens, reducing eye fatigue during intensive late-night workflows.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 5: FULL ECOSYSTEM MAP -->
+        <section id="ecosystem" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-white/10">
+            <div class="glass-panel p-8 sm:p-12 text-center relative overflow-hidden bg-gradient-to-b from-charcoal/30 to-obsidian">
+                <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">
+                    THE MAD LABS FX <span class="gradient-text-cyan">MATRIX</span>
+                </h2>
+                <p class="text-sleekSilver max-w-2xl mx-auto mb-10 text-sm">
+                    Connecting creative media production, interactive gaming, and advanced software tools into a unified digital ecosystem.
+                </p>
+
+                <!-- Interactive Matrix Nodes -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="p-4 rounded-xl bg-obsidian border border-neonCyan/30 text-center hover:scale-105 transition">
+                        <i class="fa-solid fa-gamepad text-neonCyan text-2xl mb-2"></i>
+                        <div class="text-sm font-bold text-white">Mad Labs Trivia</div>
+                        <div class="text-[10px] text-sleekSilver/70 mt-1">Interactive Gaming</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-obsidian border border-vividViolet/30 text-center hover:scale-105 transition">
+                        <i class="fa-brands fa-youtube text-vividViolet text-2xl mb-2"></i>
+                        <div class="text-sm font-bold text-white">Fame Machine</div>
+                        <div class="text-[10px] text-sleekSilver/70 mt-1">Media Channel</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-obsidian border border-neonCyan/30 text-center hover:scale-105 transition">
+                        <i class="fa-solid fa-bolt text-neonCyan text-2xl mb-2"></i>
+                        <div class="text-sm font-bold text-white">Firefly AI</div>
+                        <div class="text-[10px] text-sleekSilver/70 mt-1">Digital Assistant</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-obsidian border border-vividViolet/30 text-center hover:scale-105 transition">
+                        <i class="fa-solid fa-shield-halved text-vividViolet text-2xl mb-2"></i>
+                        <div class="text-sm font-bold text-white">Project Omni</div>
+                        <div class="text-[10px] text-sleekSilver/70 mt-1">Secure Mobile Vault</div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- FOOTER SECTION -->
+        <footer class="mt-auto border-t border-white/10 bg-obsidian py-12 px-4 sm:px-6 lg:px-8 text-xs font-mono text-sleekSilver/70">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neonCyan to-vividViolet p-0.5">
+                        <div class="w-full h-full bg-obsidian rounded-[6px] flex items-center justify-center">
+                            <i class="fa-solid fa-flask text-neonCyan text-xs"></i>
+                        </div>
+                    </div>
+                    <span class="text-white font-bold font-sans">MAD LABS FX</span>
+                    <span class="text-sleekSilver/50">| ALL SYSTEMS OPERATIONAL</span>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <a href="#trivia" class="hover:text-neonCyan transition">Trivia</a>
+                    <a href="#fame-machine" class="hover:text-neonCyan transition">Fame Machine</a>
+                    <a href="#firefly" class="hover:text-neonCyan transition">Firefly</a>
+                    <a href="#vault" class="hover:text-neonCyan transition">Vault</a>
+                </div>
+
+                <div>
+                    &copy; 2026 MAD LABS FX STUDIO. ALL RIGHTS RESERVED.
+                </div>
+            </div>
+        </footer>
 
     </div>
 
-    <footer>
-        <p>&copy; 2026 <span>Mad Labs FX</span>. All rights reserved. Built under registered corporate standards.</p>
-    </footer>
+    <!-- MODALS CONTAINER -->
 
+    <!-- Modal 1: Trivia Full Details -->
+    <div id="trivia-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
+        <div class="glass-panel border-neonCyan/40 max-w-2xl w-full p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('trivia-modal')" class="absolute top-4 right-4 text-sleekSilver hover:text-neonCyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <i class="fa-solid fa-gamepad text-neonCyan text-2xl"></i>
+                <h3 class="text-2xl font-bold text-white">Mad Labs Trivia Engine</h3>
+            </div>
+            
+            <p class="text-sleekSilver text-sm leading-relaxed mb-4">
+                Mad Labs Trivia combines tactile physical game aesthetics with digital real-time scoring. Designed around urban culture, music nostalgia, Mandela Effects, and fast-paced trivia mechanics.
+            </p>
+
+            <div class="space-y-3 text-xs text-sleekSilver/90 bg-charcoal/60 p-4 rounded-xl border border-white/10 mb-6">
+                <div><strong class="text-neonCyan">Key Categories:</strong> 1990s/2000s R&B & Hip-Hop, Mandela Effect Lore, Pop Culture Urban Legends, Cyber Security & AI.</div>
+                <div><strong class="text-neonCyan">Supported Modes:</strong> Single Player Solo Battle, Local Party Mode, Multiplayer Online Matchmaking.</div>
+            </div>
+
+            <button onclick="closeModal('trivia-modal')" class="w-full py-3 rounded-xl bg-neonCyan text-obsidian font-bold hover:bg-white transition">
+                Close & Return to Page
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal 2: Fame Machine Video Modal Preview -->
+    <div id="fame-modal-1" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
+        <div class="glass-panel border-vividViolet/40 max-w-3xl w-full p-6 sm:p-8 relative">
+            <button onclick="closeModal('fame-modal-1')" class="absolute top-4 right-4 text-sleekSilver hover:text-neonCyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="mb-4">
+                <span class="text-xs font-mono text-vividViolet">YOUTUBE DOCUMENTARY PREVIEW</span>
+                <h3 class="text-2xl font-bold text-white mt-1">The Golden Age of 90s R&B Production</h3>
+            </div>
+            
+            <!-- Video Mock Canvas / Player Container -->
+            <div class="aspect-video bg-black rounded-xl overflow-hidden border border-white/10 flex items-center justify-center relative my-4">
+                <div class="text-center p-6">
+                    <i class="fa-brands fa-youtube text-red-500 text-6xl animate-bounce mb-3"></i>
+                    <p class="text-white font-bold text-lg">The Fame Machine Studio Channel</p>
+                    <p class="text-xs text-sleekSilver/70 mt-1">Visit our channel for full documentary episodes and cultural breakdowns.</p>
+                </div>
+            </div>
+
+            <p class="text-sleekSilver text-xs leading-relaxed">
+                Explore how iconic producers crafted distinct soundscapes using groundbreaking synthesizer techniques, sampling culture, and vocal harmony arrangements.
+            </p>
+        </div>
+    </div>
+
+    <div id="fame-modal-2" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
+        <div class="glass-panel border-neonCyan/40 max-w-3xl w-full p-6 sm:p-8 relative">
+            <button onclick="closeModal('fame-modal-2')" class="absolute top-4 right-4 text-sleekSilver hover:text-neonCyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2">Architects of Celebrity Culture</h3>
+            <p class="text-sleekSilver text-sm leading-relaxed mb-4">
+                Analyzing the rise of viral celebrity dynamics, media narrative control, and modern internet stardom algorithms.
+            </p>
+            <button onclick="closeModal('fame-modal-2')" class="px-6 py-2 rounded-lg bg-neonCyan text-obsidian font-bold">Close</button>
+        </div>
+    </div>
+
+    <div id="fame-modal-3" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
+        <div class="glass-panel border-amber-500/40 max-w-3xl w-full p-6 sm:p-8 relative">
+            <button onclick="closeModal('fame-modal-3')" class="absolute top-4 right-4 text-sleekSilver hover:text-neonCyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2">Collective Memory & Media Illusion</h3>
+            <p class="text-sleekSilver text-sm leading-relaxed mb-4">
+                Deep dive into the psychological phenomenon of shared false memories and Mandela Effects across pop culture and movie history.
+            </p>
+            <button onclick="closeModal('fame-modal-3')" class="px-6 py-2 rounded-lg bg-amber-400 text-obsidian font-bold">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal 3: Firefly Assistant Info Modal -->
+    <div id="firefly-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
+        <div class="glass-panel border-neonCyan/40 max-w-2xl w-full p-6 sm:p-8 relative">
+            <button onclick="closeModal('firefly-modal')" class="absolute top-4 right-4 text-sleekSilver hover:text-neonCyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <i class="fa-solid fa-bolt text-neonCyan text-2xl"></i>
+                <h3 class="text-2xl font-bold text-white">Firefly Digital Assistant Core</h3>
+            </div>
+            
+            <p class="text-sleekSilver text-sm leading-relaxed mb-4">
+                Firefly is engineered as a zero-latency contextual companion for creators. Integrates voice control, document synthesis, real-time code auditing, and adaptive media organization.
+            </p>
+
+            <button onclick="closeModal('firefly-modal')" class="w-full py-3 rounded-xl bg-neonCyan text-obsidian font-bold hover:bg-white transition">
+                Close & Return
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT INTERACTIVE LOGIC -->
     <script>
-        function switchPage(pageId) {
-            const pages = document.querySelectorAll('.page-view');
-            pages.forEach(p => p.classList.remove('active'));
+        // --- 1. MOBILE MENU TOGGLE ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
 
-            const navLinks = document.querySelectorAll('nav a');
-            navLinks.forEach(l => l.classList.remove('active'));
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
-            const targetNav = document.getElementById('nav-' + pageId);
-            if (targetNav) {
-                targetNav.classList.add('active');
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // --- 2. MODAL HELPER FUNCTIONS ---
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) modal.classList.remove('hidden');
         }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) modal.classList.add('hidden');
+        }
+
+        // --- 3. MAD LABS TRIVIA INTERACTIVE MINI-GAME ENGINE ---
+        const triviaQuestions = [
+            {
+                category: "MANDELA EFFECT / POP LORE",
+                question: "In the famous Monopoly game logo, does the Monopoly Man wear a monocle?",
+                options: [
+                    "Yes, he has always worn a monocle.",
+                    "No, he never wore a monocle (a common Mandela Effect).",
+                    "He wears a monocle only in special editions.",
+                    "He lost his monocle in recent updates."
+                ],
+                correct: 1,
+                explanation: "Correct! Rich Uncle Pennybags (Monopoly Man) never actually wore a monocle—a classic example of the Mandela Effect!"
+            },
+            {
+                category: "90S / 2000S MUSIC HISTORY",
+                question: "Which legendary R&B producer group was founded by Teddy Riley, defining the New Jack Swing sound?",
+                options: [
+                    "Guy / Blackstreet",
+                    "Boyz II Men",
+                    "Jodeci",
+                    "112"
+                ],
+                correct: 0,
+                explanation: "Spot on! Teddy Riley pioneered New Jack Swing with Guy and later formed Blackstreet!"
+            },
+            {
+                category: "CYBER & TECH LORE",
+                question: "What term describes secure mobile software designed to operate entirely offline with zero server data leaking?",
+                options: [
+                    "Cloud-Native Pipeline",
+                    "Air-Gapped / Offline-First",
+                    "Serverless Microservice",
+                    "Peer-to-Peer Relay"
+                ],
+                correct: 1,
+                explanation: "Precisely! Air-gapped / offline-first architecture ensures full client-side privacy!"
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let userScore = 0;
+        let selectedOption = null;
+
+        function renderTriviaWidget() {
+            const container = document.getElementById('trivia-widget-content');
+            const q = triviaQuestions[currentQuestionIdx];
+
+            if (currentQuestionIdx >= triviaQuestions.length) {
+                // Game Finished View
+                container.innerHTML = `
+                    <div class="text-center py-8 space-y-4 animate-fade-in">
+                        <div class="w-16 h-16 rounded-full bg-neonCyan/20 border border-neonCyan text-neonCyan text-3xl flex items-center justify-center mx-auto">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">TRIVIA MINI-DEMO COMPLETE!</h3>
+                        <p class="text-sleekSilver text-sm">Final Score: <span class="text-neonCyan font-bold text-lg">${userScore} / ${triviaQuestions.length * 100} PTS</span></p>
+                        <button onclick="restartTrivia()" class="px-6 py-3 rounded-xl bg-neonCyan text-obsidian font-bold text-sm hover:bg-white transition shadow-neon-cyan">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Play Demo Again
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-mono px-2.5 py-1 rounded bg-neonCyan/10 text-neonCyan border border-neonCyan/30">
+                            QUESTION ${currentQuestionIdx + 1} OF ${triviaQuestions.length}
+                        </span>
+                        <span class="text-xs font-mono text-sleekSilver/60">${q.category}</span>
+                    </div>
+
+                    <h3 class="text-lg sm:text-xl font-extrabold text-white leading-snug">
+                        ${q.question}
+                    </h3>
+
+                    <div class="space-y-2.5 pt-2">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="selectTriviaOption(${idx})" id="opt-btn-${idx}" class="w-full text-left p-3.5 rounded-xl bg-obsidian/80 border border-white/10 hover:border-neonCyan/50 hover:bg-neonCyan/5 text-sm text-sleekSilver transition flex items-center justify-between group">
+                                <span>${opt}</span>
+                                <i class="fa-regular fa-circle text-sleekSilver/40 group-hover:text-neonCyan"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="trivia-feedback" class="hidden p-3 rounded-xl text-xs font-mono"></div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button id="next-q-btn" onclick="nextTriviaQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-neonCyan text-obsidian font-bold text-xs hover:bg-white transition">
+                            Next Question &rarr;
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectTriviaOption(idx) {
+            const q = triviaQuestions[currentQuestionIdx];
+            const feedbackEl = document.getElementById('trivia-feedback');
+            const nextBtn = document.getElementById('next-q-btn');
+            
+            // Disable all option buttons
+            for(let i=0; i<q.options.length; i++) {
+                const btn = document.getElementById(`opt-btn-${i}`);
+                if(btn) btn.disabled = true;
+            }
+
+            const selectedBtn = document.getElementById(`opt-btn-${idx}`);
+            const correctBtn = document.getElementById(`opt-btn-${q.correct}`);
+
+            if(idx === q.correct) {
+                userScore += 100;
+                document.getElementById('trivia-score-badge').innerText = `SCORE: ${userScore} PTS`;
+                selectedBtn.classList.add('border-green-500', 'bg-green-500/20', 'text-green-300');
+                feedbackEl.className = "p-3 rounded-xl text-xs font-mono bg-green-500/10 border border-green-500/30 text-green-300";
+                feedbackEl.innerText = `✓ ${q.explanation}`;
+            } else {
+                selectedBtn.classList.add('border-red-500', 'bg-red-500/20', 'text-red-300');
+                correctBtn.classList.add('border-green-500', 'bg-green-500/20', 'text-green-300');
+                feedbackEl.className = "p-3 rounded-xl text-xs font-mono bg-red-500/10 border border-red-500/30 text-red-300";
+                feedbackEl.innerText = `✗ Incorrect. ${q.explanation}`;
+            }
+
+            feedbackEl.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextTriviaQuestion() {
+            currentQuestionIdx++;
+            renderTriviaWidget();
+        }
+
+        function restartTrivia() {
+            currentQuestionIdx = 0;
+            userScore = 0;
+            document.getElementById('trivia-score-badge').innerText = `SCORE: 0 PTS`;
+            renderTriviaWidget();
+        }
+
+        // Initial trivia render
+        renderTriviaWidget();
+
+        // --- 4. FIREFLY AUDIO WAVEFORM ANIMATION ---
+        function triggerWaveformAnim() {
+            const container = document.getElementById('waveform-container');
+            const bars = container.querySelectorAll('div');
+            bars.forEach(bar => {
+                const randomHeight = Math.floor(Math.random() * 48) + 12;
+                bar.style.height = `${randomHeight}px`;
+            });
+
+            const pulseLine = document.getElementById('terminal-pulse-line');
+            if(pulseLine) {
+                pulseLine.innerText = `> Audio input received. Processing natural language context...`;
+                setTimeout(() => {
+                    pulseLine.innerText = `> Waiting for voice audio command...`;
+                }, 3000);
+            }
+        }
+
+        // --- 5. CANVAS CYBER BACKGROUND PARTICLES ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        const particleCount = 45;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.8 + 0.5,
+                color: Math.random() > 0.5 ? 'rgba(69, 243, 255, ' : 'rgba(157, 78, 221, ',
+                alpha: Math.random() * 0.5 + 0.2,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + p.alpha + ')';
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.onload = function() {
+            animateParticles();
+        };
     </script>
 </body>
 </html>
